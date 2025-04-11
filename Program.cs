@@ -26,7 +26,7 @@ namespace OnlineTopup
 
                 if (!dataService.ValidateTopupAccount(userAccount, userPass))
                 {
-                    Console.WriteLine("FAILED: Incorrect Username or Password. Please try again logging in.");
+                    Console.WriteLine("FAILED: Incorrect Username or Password. Please try again");
                 }
 
             } while (!dataService.ValidateTopupAccount(userAccount, userPass));
