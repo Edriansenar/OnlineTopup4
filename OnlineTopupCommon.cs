@@ -8,20 +8,12 @@ namespace OnlineTopup
 {
     public class OnlineTopupCommon
     {
-        private string _pass = "1234";
-        public string Pass
-        {
-            get { return _pass; }
-            set
-            {
-                if (value.Length == 4 || value.Length == 6)
-                {
-                    _pass = value;
-                }
-            }
-        }
+        public string Pass { get; set; }
 
         public string User { get; set; }
+
+
+
 
     }
 }
