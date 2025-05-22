@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineTopup
+namespace OnlineTopupCommon
 {
-    public class OnlineTopupCommon
+    public class UserAccount
     {
-        public string Pass { get; set; }
-
         public string User { get; set; }
-
-
-
-
+        public string Pass { get; set; }
     }
 }
