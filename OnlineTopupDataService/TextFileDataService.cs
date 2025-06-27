@@ -11,6 +11,8 @@ namespace OnlineTopupDataService
     {
         string userFilePath = "useraccounts.txt";
         string cartFilePath = "cartitems.json";
+        private List<CartItem> _cartItems = new List<CartItem>();
+
 
         List<UserAccount> userAccounts = new();
         Dictionary<int, List<(string GameName, string Amount)>> cartStorage = new();
@@ -107,10 +109,6 @@ namespace OnlineTopupDataService
             SaveCartToFile();
         }
 
-        public List<(string GameName, string Amount)> GetCartItems(int userId)
-        {
-            return cartStorage.TryGetValue(userId, out var items) ? new(items) : new();
-        }
 
         public void ClearCart(int userId)
         {
@@ -129,5 +127,37 @@ namespace OnlineTopupDataService
                 SaveCartToFile();
             }
         }
+        public List<CartItem> GetCartItems(int userId)
+        {
+            var cartItems = new List<CartItem>();
+
+            if (!File.Exists("cart.txt"))
+                return cartItems;
+
+            var lines = File.ReadAllLines("cart.txt");
+
+            foreach (var line in lines)
+            {
+                var parts = line.Split(',');
+                if (parts.Length >= 4 && int.TryParse(parts[0], out int id) && int.TryParse(parts[1], out int uid))
+                {
+                    if (uid == userId)
+                    {
+                        cartItems.Add(new CartItem
+                        {
+                            Id = id,
+                            UserId = uid,
+                            GameName = parts[2],
+                            Amount = parts[3],
+                            DateAdded = DateTime.TryParse(parts.Length >= 5 ? parts[4] : null, out var dt) ? dt : DateTime.Now
+                        });
+                    }
+                }
+            }
+
+            return cartItems;
+        }
+
+
     }
 }

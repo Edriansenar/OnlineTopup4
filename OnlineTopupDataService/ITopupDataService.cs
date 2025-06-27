@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OnlineTopupCommon.UserAccount;
 
 namespace OnlineTopupDataService
 {
@@ -17,11 +18,10 @@ namespace OnlineTopupDataService
 
 
         void AddCartItem(int userId, string gameName, string amount);
-        List<(string GameName, string Amount)> GetCartItems(int userId);
+        
         void ClearCart(int userId);
-
         void RemoveCartItem(int userId, int itemIndex);
-
+        List<CartItem> GetCartItems(int userId);
 
 
     }

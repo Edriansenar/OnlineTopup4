@@ -11,6 +11,7 @@ namespace OnlineTopupDataService
     {
         static List<UserAccount> userAccounts = new List<UserAccount>();
         static Dictionary<int, List<(string GameName, string Amount)>> cartStorage = new();
+        private List<CartItem> _cartItems = new List<CartItem>();
 
         static string userFilePath = "useraccounts.json";
         static string cartFilePath = "cartitems.json";
@@ -100,14 +101,6 @@ namespace OnlineTopupDataService
             WriteJsonCartData();
         }
 
-        public List<(string GameName, string Amount)> GetCartItems(int userId)
-        {
-            if (cartStorage.TryGetValue(userId, out var items))
-            {
-                return new List<(string, string)>(items);
-            }
-            return new List<(string, string)>();
-        }
 
         public void ClearCart(int userId)
         {
@@ -125,6 +118,10 @@ namespace OnlineTopupDataService
                 cartStorage[userId].RemoveAt(itemIndex);
                 WriteJsonCartData();
             }
+        }
+        public List<CartItem> GetCartItems(int userId)
+        {
+            return _cartItems.Where(item => item.UserId == userId).ToList();
         }
     }
 }

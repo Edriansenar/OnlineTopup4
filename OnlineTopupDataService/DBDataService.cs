@@ -7,6 +7,7 @@ using OnlineTopupCommon;
 using OnlineTopupDataService;
 using Microsoft.Data.Sql;
 using Microsoft.Data.SqlClient;
+using static OnlineTopupCommon.UserAccount;
 
 
 namespace OnlineTopupDataService
@@ -147,30 +148,6 @@ namespace OnlineTopupDataService
             }
         }
 
-        public List<(string GameName, string Amount)> GetCartItems(int userId)
-        {
-            var items = new List<(string, string)>();
-
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var cmd = new SqlCommand("SELECT GameName, Amount FROM Cart WHERE UserId = @userId", conn);
-                cmd.Parameters.AddWithValue("@userId", userId);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string game = reader.GetString(0);
-                        string amount = reader.GetString(1);
-                        items.Add((game, amount));
-                    }
-                }
-            }
-
-            return items;
-        }
-
         public void ClearCart(int userId)
         {
             using (var conn = new SqlConnection(connectionString))
@@ -196,6 +173,41 @@ namespace OnlineTopupDataService
                 cmd.ExecuteNonQuery();
             }
         }
+        public List<CartItem> GetCartItems(int userId)
+        {
+            var result = new List<CartItem>();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "SELECT Id, UserId, GameName, Amount, DateAdded FROM CartItems WHERE UserId = @userId";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(new CartItem
+                            {
+                                Id = reader.GetInt32(0),
+                                UserId = reader.GetInt32(1),
+                                GameName = reader.GetString(2),
+                                Amount = reader.GetString(3),
+                                DateAdded = reader.GetDateTime(4)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
 
 
 

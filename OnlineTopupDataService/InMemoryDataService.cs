@@ -11,6 +11,7 @@ namespace OnlineTopupDataService
         private List<UserAccount> accounts = new List<UserAccount>();
         private Dictionary<int, List<(string GameName, string Amount)>> cartStorage = new();
         private int nextUserId = 1;
+        private List<CartItem> _cartItems = new List<CartItem>();
 
         public InMemoryDataService()
         {
@@ -66,13 +67,9 @@ namespace OnlineTopupDataService
             cartStorage[userId].Add((gameName, amount));
         }
 
-        public List<(string GameName, string Amount)> GetCartItems(int userId)
+        public List<CartItem> GetCartItems(int userId)
         {
-            if (cartStorage.TryGetValue(userId, out var items))
-            {
-                return new List<(string, string)>(items);
-            }
-            return new List<(string, string)>();
+            return _cartItems.Where(item => item.UserId == userId).ToList();
         }
 
         public void ClearCart(int userId)
@@ -90,5 +87,6 @@ namespace OnlineTopupDataService
                 cartStorage[userId].RemoveAt(itemIndex);
             }
         }
+
     }
 }

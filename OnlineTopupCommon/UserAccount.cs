@@ -14,11 +14,25 @@ namespace OnlineTopupCommon
         public int UserId { get; set; }
         public string PaymentMethod { get; set; }
         public List<string> Items { get; set; }
+        public string GameName { get; set; }
+        public string Amount { get; set; }
+        public DateTime DateAdded { get; set; }
+
+
+    }
+    public class CartItem
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string GameName { get; set; }
+        public string Amount { get; set; }
+        public DateTime DateAdded { get; set; }
+    }
+    public class CheckoutData
+    {
+        public int UserId { get; set; }
+        public string PaymentMethod { get; set; }
+        public List<string> Items { get; set; }
     }
 }
-public class CheckoutData
-{
-    public int UserId { get; set; }
-    public string PaymentMethod { get; set; }
-    public List<string> Items { get; set; }
-}
+
