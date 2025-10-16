@@ -213,6 +213,21 @@ namespace OnlineTopup
             Console.WriteLine("Items:");
             data.Items.ForEach(item => Console.WriteLine("- " + item));
 
+
+            var emailService = new EmailService();
+            string subject = "Online Topup - Checkout Confirmation";
+            string body = $"Hello!\n\nYour top-up checkout is complete.\n" +
+                          $"Payment Method: {data.PaymentMethod}\n" +
+                          $"Items:\n - {string.Join("\n - ", data.Items)}\n\n" +
+                          $"Thank you for using Online Game Topup!";
+
+            bool emailSent = emailService.SendEmail("to@example.com", subject, body);
+
+            if (emailSent)
+                Console.WriteLine("\n✅ Email confirmation sent successfully!");
+            else
+                Console.WriteLine("\n⚠️ Email sending failed.");
+
             cart.ClearCart();
         }
     }
