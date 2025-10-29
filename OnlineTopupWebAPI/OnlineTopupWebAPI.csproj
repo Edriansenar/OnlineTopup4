@@ -4,6 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\OnlineTopup4</DockerfileContext>
+    <UserSecretsId>a631f3a9-530d-4b3b-85bd-ef23d3950681</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,12 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineTopup4\OnlineTopup.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="OnlineTopup">
-      <HintPath>..\OnlineTopup4\bin\Debug\net8.0\OnlineTopup.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

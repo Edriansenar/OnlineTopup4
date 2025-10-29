@@ -1,16 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using OnlineTopupCommon;
-using OnlineTopupDataService;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using OnlineTopup.OnlineTopupBusinessLogic;
+using OnlineTopup.OnlineTopupCommon;
 using OnlineTopupBusinessLogic;
 using OnlineTopupBusinessLogic.OnlineTopupBusinessLogic;
+using OnlineTopupCommon;
+using OnlineTopupDataService;
+using System;
 
 namespace OnlineTopup
 {
     internal class Program
     {
+        // Configuration loaded once for the whole program
+        static IConfiguration configuration;
+
         static void Main(string[] args)
         {
+            // Load appsettings.json from output folder
+            configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Welcome to Online Game Topup");
             Console.WriteLine("-------------------------------\n");
@@ -213,22 +224,24 @@ namespace OnlineTopup
             Console.WriteLine("Items:");
             data.Items.ForEach(item => Console.WriteLine("- " + item));
 
+            // --- Create EmailService with IOptions<EmailSettings> ---
+            var emailSettings = configuration.GetSection("EmailSettings").Get<EmailSettings>();
+            var options = Options.Create(emailSettings);
+            var emailService = new EmailService(options);
 
-            var emailService = new EmailService();
-            string subject = "Online Topup - Checkout Confirmation";
-            string body = $"Hello!\n\nYour top-up checkout is complete.\n" +
-                          $"Payment Method: {data.PaymentMethod}\n" +
-                          $"Items:\n - {string.Join("\n - ", data.Items)}\n\n" +
-                          $"Thank you for using Online Game Topup!";
-
-            bool emailSent = emailService.SendEmail("to@example.com", subject, body);
-
-            if (emailSent)
+            try
+            {
+                // EmailService.SendEmail currently expects accountNumber only
+                emailService.SendEmail(data.UserId.ToString());
                 Console.WriteLine("\n✅ Email confirmation sent successfully!");
-            else
-                Console.WriteLine("\n⚠️ Email sending failed.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\n⚠️ Failed to send email: {ex.Message}");
+            }
 
             cart.ClearCart();
         }
     }
 }
+

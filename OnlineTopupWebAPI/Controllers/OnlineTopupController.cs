@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineTopup.OnlineTopupBusinessLogic;     // EmailService namespace
+using OnlineTopup.OnlineTopupCommon;            // EmailSettings namespace if used anywhere
 using OnlineTopupBusinessLogic;
 using OnlineTopupCommon;
 using OnlineTopupDataService;
@@ -10,10 +12,13 @@ namespace OnlineTopupWebAPI.Controllers
     public class CartController : ControllerBase
     {
         private readonly ITopupDataService _dataService;
+        private readonly EmailService _emailService;
 
-        public CartController()
+        // Use DI to get data service and email service
+        public CartController(ITopupDataService dataService, EmailService emailService)
         {
-            _dataService = new DBDataService();
+            _dataService = dataService;
+            _emailService = emailService;
         }
 
         // GET: api/cart/user/1
@@ -50,12 +55,29 @@ namespace OnlineTopupWebAPI.Controllers
             return Ok("Cart item updated.");
         }
 
+        // POST: api/cart/checkout
         [HttpPost("checkout")]
         public ActionResult<CheckoutData> Checkout([FromBody] CheckoutRequest request)
         {
             var cart = new Cart(_dataService, request.UserId);
             var data = cart.GetCheckoutData(request.PaymentMethod);
+
+            // Clear cart (you already do this in original code)
             cart.ClearCart();
+
+            // Send email confirmation using the injected EmailService.
+            // EmailService.SendEmail(string accountNumber) uses EmailSettings.ToAddress from appsettings.json
+            try
+            {
+                _emailService.SendEmail(data.UserId.ToString());
+            }
+            catch (Exception ex)
+            {
+                // Don't throw 500 if email fails; return a 200 with failure note or use 207/other logic
+                // Here we include info for debugging and still return the checkout data.
+                return StatusCode(500, new { message = "Checkout completed but email failed to send.", error = ex.Message, checkout = data });
+            }
+
             return Ok(data);
         }
 
@@ -96,4 +118,3 @@ namespace OnlineTopupWebAPI.Controllers
         public int NewOptionIndex { get; set; }
     }
 }
-

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTopup", "OnlineTopup.csproj", "{91DB8A7C-0AB4-4821-9A2A-96929C1FE089}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTopupWebAPI", "..\OnlineTopupWebAPI\OnlineTopupWebAPI.csproj", "{3523E8A9-AE40-46C0-BA54-6ADA3149F252}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTopupWebAPI", "..\OnlineTopupWebAPI\OnlineTopupWebAPI.csproj", "{151A729A-7E86-4AFB-A37C-01A7EA984FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{91DB8A7C-0AB4-4821-9A2A-96929C1FE089}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91DB8A7C-0AB4-4821-9A2A-96929C1FE089}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91DB8A7C-0AB4-4821-9A2A-96929C1FE089}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3523E8A9-AE40-46C0-BA54-6ADA3149F252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3523E8A9-AE40-46C0-BA54-6ADA3149F252}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3523E8A9-AE40-46C0-BA54-6ADA3149F252}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3523E8A9-AE40-46C0-BA54-6ADA3149F252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151A729A-7E86-4AFB-A37C-01A7EA984FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151A729A-7E86-4AFB-A37C-01A7EA984FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151A729A-7E86-4AFB-A37C-01A7EA984FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151A729A-7E86-4AFB-A37C-01A7EA984FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
